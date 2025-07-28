@@ -35,7 +35,7 @@ def get_db_connection():
     conn = None
     try:
         conn_str = (
-            "DRIVER={SQL Server};"
+            "DRIVER={ODBC Driver 17 for SQL Server};"
             "SERVER=SQL1004.site4now.net;"
             "DATABASE=db_abbcbc_gcoffee;"
             "UID=db_abbcbc_gcoffee_admin;"
