@@ -843,6 +843,40 @@ def index_html():
         </html>
     """)
 
+
+
+# Sử dụng Flask-RESTx cho endpoint kiểm tra kết nối CSDL
+from flask_restx import Namespace
+test_ns = Namespace('test', description='Kiểm tra kết nối CSDL')
+
+@test_ns.route('/db')
+class TestDB(Resource):
+    def get(self):
+        conn = get_db_connection()
+        if conn:
+            try:
+                cursor = conn.cursor()
+                cursor.execute("SELECT TOP 1 ProductID FROM Products;")
+                result = cursor.fetchone()
+                conn.close()
+                return {
+                    "status": "success",
+                    "message": "Kết nối CSDL thành công!",
+                    "sample_product_id": result[0] if result else None
+                }, 200
+            except Exception as e:
+                return {
+                    "status": "error",
+                    "message": f"Kết nối được nhưng truy vấn lỗi: {e}"
+                }, 500
+        else:
+            return {
+                "status": "error",
+                "message": "Không thể kết nối CSDL. Kiểm tra lại cấu hình hoặc trạng thái server."
+            }, 500
+
+api.add_namespace(test_ns, path='/api/test')
+
 # Chạy ứng dụng Flask
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))
