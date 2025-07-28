@@ -34,13 +34,8 @@ def get_db_connection():
     """
     conn = None
     try:
-        conn_str = (
-            "DRIVER={ODBC Driver 17 for SQL Server};"
-            "SERVER=SQL1004.site4now.net;"
-            "DATABASE=db_abbcbc_gcoffee;"
-            "UID=db_abbcbc_gcoffee_admin;"
-            "PWD=Thanh123@"
-        )
+        conn_str = "mssql+pymssql://db_abbcbc_gcoffee_admin:Thanh123@@SQL1004.site4now.net/db_abbcbc_gcoffee"
+
         print(f"[DEBUG] Đang thử kết nối CSDL với chuỗi: {conn_str}", file=sys.stderr)
         conn = pyodbc.connect(conn_str)
         print("[DEBUG] Kết nối CSDL thành công", file=sys.stderr)
