@@ -15,6 +15,7 @@ import os
 import requests
 import json
 import sys
+import pyodbc
 
 # --- Cấu hình Google Gemini API ---
 # Lấy GOOGLE_API_KEY từ biến môi trường. Nếu không tồn tại, dùng giá trị mặc định trống.
@@ -34,7 +35,14 @@ def get_db_connection():
     """
     conn = None
     try:
-        conn_str = "mssql+pymssql://db_abbcbc_gcoffee_admin:Thanh123@@SQL1004.site4now.net/db_abbcbc_gcoffee"
+        conn = pyodbc.connect(
+    "DRIVER={ODBC Driver 17 for SQL Server};"
+    "SERVER=SQL1004.site4now.net;"
+    "DATABASE=db_abbcbc_gcoffee;"
+    "UID=db_abbcbc_gcoffee_admin;"
+    "PWD=Thanh123@"
+)
+
 
         print(f"[DEBUG] Đang thử kết nối CSDL với chuỗi: {conn_str}", file=sys.stderr)
         conn = pyodbc.connect(conn_str)
